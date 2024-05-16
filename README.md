@@ -1,12 +1,15 @@
-EXP-1
+EXP-2
 
 Date:
 
-                     SIMULATION OF LOGIC GATES ,ADDERS AND SUBTRACTORS
-                                               
-AIM: To simulate Logic Gates ,Adders and Subtractors using Vivado 2023.2.
+                  SIMULATION AND IMPLEMENTATION OF COMBINATIONAL LOGIC CIRCUITS
 
-APPARATUS REQUIRED: VIVADO 2023.2
+AIM:
+ To simulate and synthesis ENCODER, DECODER, MULTIPLEXER, DEMULTIPLEXER, MAGNITUDE COMPARATOR using VIVADO 2023.2
+
+APPARATUS REQUIRED: 
+
+VIVADO 2023.2
 
 PROCEDURE:
 
@@ -24,174 +27,142 @@ STEP:6 Click “run simulation” in the navigator window and click “Run behav
 
 STEP:7 Verify the output in the simulation window.
 
-LOGIC GATES LOGIC DIAGRAM:
+LOGIC DIAGRAM
 
-![image](https://github.com/navaneethans/VLSI-LAB-EXPERIMENTS/assets/6987778/ee17970c-3ac9-4603-881b-88e2825f41a4)
+ENCODER
 
- VERILOG CODE
+![328582891-efe2b90d-7a2e-48b0-9dea-021660cbb2e0](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/cbdf6539-bfb9-4526-aedb-0f06358dfca5)
+
+verilog code
 ```
-module logicgate (a,b,andgate,orgate,xorgate,nandgate,norgate,xnorgate,notgate);
-input a,b;  
-output andgate,orgate,xorgate,nandgate,norgate,xnorgate,notgate;
-and(andgate,a,b);
-or(orgate,a,b);
-xor(xorgate,a,b);
-nand(nandgate,a,b); 
-nor(norgate,a,b);
-xnor(xnorgate,a,b);
-not(notgate,a);
+module encoder(a,y);
+input [7:0]a;
+output[2:0]y;
+or(y[2],a[6],a[5],a[4],a[3]);
+or(y[1],a[6],a[5],a[2],a[1]);
+or(y[0],a[6],a[4],a[2],a[0]);
 endmodule
 ```
-OUTPUT WAVEFORM
-![328455264-a62e4538-0094-4126-b762-1a1fdc1e8931](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/00cf4ec9-2d7f-4e2c-8003-0f696a7928ae)
+output
+
+![328583339-0a7dae4d-195d-4478-ab95-7fa72bff1cb0](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/bb3e066b-ee2d-4b13-86b4-76d69a71f2dc)
+
+LOGIC DIAGRAM DECODER
+
+![328583716-379dfab4-6571-4e74-b3f0-7fad4010dcb4](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/2027ff6a-4b37-4e65-b26c-bb721b2e2970)
 
 
-HALF ADDER LOGIC DIAGRAM
-![328456195-8dbaa111-3916-4e39-bd03-852cd2d76982](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/8676811b-1e6e-408b-add1-573a2e4e2397)
+verilog code
+```
+module decoder1(a,y);
+input [2:0]a;
+output[7:0]y;
+and(y[0],~a[2],~a[1],~a[0]);
+and(y[1],~a[2],~a[1],a[0]);
+and(y[2],~a[2],a[1],~a[0]);
+and(y[3],~a[2],a[1],a[0]);
+and(y[4],a[2],~a[1],~a[0]);
+and(y[5],a[2],~a[1],a[0]);
+and(y[6],a[2],a[1],~a[0]);
+and(y[7],a[2],a[1],a[0]);
+endmodule
+```
+output
+
+![328584252-21cc150c-9fc2-4b5a-b779-b3a6b1e57e98](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/df7019a2-8450-472e-b032-10915d08063c)
+
+LOGIC DIAGRAM MULTIPLEXER
+
+![328585145-cd7ef931-2f82-44dc-8110-321214476a4f](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/c5d0e39c-a235-4dc2-be61-019b84136e3a)
 
 
 VERILOG CODE
 ```
-module half_adder(a,b,sum,carry);
-
-input a,b;
-
-output sum,carry;
-
-xor g1(sum,a,b);
-
-and g2(carry,a,b);
-
+module mux(s,c,a);
+input [2:0]s;
+input [7:0]a;
+wire [7:0]w;
+output c;
+and(w[0],a[0],~s[2],~s[1],~s[0]);
+and(w[1],a[1],~s[2],~s[1],s[0]);
+and(w[2],a[2],~s[2],s[1],~s[0]);
+and(w[3],a[3],~s[2],s[1],s[0]);
+and(w[4],a[4],s[2],~s[1],~s[0]);
+and(w[5],a[5],s[2],~s[1],s[0]);
+and(w[6],a[6],s[2],s[1],~s[0]);
+and(w[7],a[7],s[2],s[1],s[0]);
+or (c,w[0],w[1],w[2],w[3],w[4],w[5],w[6],w[7]);
 endmodule
 ```
-OUTPUT WAVEFORM
-![328456731-d325278a-9829-4e71-b638-70f7285a1dcd](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/ac8639cc-eaa0-43c1-a13b-3e4789a47b5e)
+output
 
+![328585663-8dd1c71b-e233-4725-96d7-70477fa1babd](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/639cdb5d-6fec-40a3-bb41-877b66690ba5)
 
-FULL ADDER LOGIC DIAGRAM
-![328457240-8713d8b5-e4b6-4c9d-a00b-41eae22c9a2c](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/9c56e610-0028-4b03-9fe9-3323b4070e43)
+VERILOG CODE DEMULTIPLEXER
+
+![328586052-7499dabf-d2bd-48b0-88ec-fd33fc3bf323](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/bd6a85c3-0d1f-49e2-9380-32c6bc22913b)
 
 
 VERILOG CODE
 ```
-module fulladder(a,b,c,sum,carry);
-
-input a,b,c;
-
-output sum,carry;
-
-wire w1,w2,w3;
-
-xor(w1,a,b);
-
-xor(sum,w1,c);
-
-and(w2,w1,c);
-
-and(w3,a,b);
-
-or(carry,w2,w3);
-
+module demux_8(s,a,y);
+input [2:0]s;
+input a;
+output [7:0]y;
+and(y[0],a,~s[2],~s[1],~s[0]);
+and(y[1],a,~s[2],~s[1],s[0]);
+and(y[2],a,~s[2],s[1],~s[0]);
+and(y[3],a,~s[2],s[1],s[0]);
+and(y[4],a,s[2],~s[1],~s[0]);
+and(y[5],a,s[2],~s[1],s[0]);
+and(y[6],a,s[2],s[1],~s[0]);
+and(y[7],a,s[2],s[1],s[0]);
 endmodule
 ```
-OUTPUT WAVEFORM
-![328457694-5c2e8258-da0f-4afd-98eb-f56bd8c7ec30](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/919b01c9-3ff7-4f38-a097-c16bedfc73f3)
 
+output
 
-HALF SUBTRACTOR LOGIC DIAGRAM
+![328586729-31b3314b-b860-40ff-9334-b0ee03ed5a5f](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/7278ac37-d30b-4678-b6f3-d3e74ecf902e)
 
-![328457975-a2ece9c5-3ea5-4656-ac14-51ae2f150460](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/8caddbe8-3c34-4064-9319-a3b78d2389a0)
+MAGNITUDE COMPARATOR
 
+![328587068-438bf227-3184-4629-9e37-92c0ee354a9b](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/be421dba-bd82-470d-8437-7824cdc767c0)
 
 VERILOG CODE
 ```
-module halfsub(a,b,diff,borrow);
-
-input a,b;
-
-output diff,borrow;
-
-xor(diff,a,b);
-
-and(borrow,~a,b);
-
+module comparator(a,b,eq,lt,gt);
+input [3:0] a,b;
+output reg eq,lt,gt;
+always @(a,b)
+begin
+ if (a==b)
+ begin
+  eq = 1'b1;
+  lt = 1'b0;
+  gt = 1'b0;
+ end
+ else if (a>b)
+ begin
+  eq = 1'b0;
+  lt = 1'b0;
+  gt = 1'b1;
+ end
+ else
+ begin
+  eq = 1'b0;
+  lt = 1'b1;
+  gt = 1'b0;
+ end
+end 
 endmodule
 ```
-OUTPUT WAVEFORM
-![328458425-4bdf087c-428c-4822-bc46-c5e7dd254033](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/3fe4f8bc-717e-44b2-9cab-2c12b75c7ff0)
+OUTPUT
 
+![328588837-08d2e7c6-2608-4faf-8d17-a85311763ce5](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/af894dd1-a196-47e8-826a-b801f46e4c66)
 
-FULL SUBTRACTOR LOGIC DIAGRAM
+RESULT
 
-![328458649-1b5c2122-0560-4d64-8eca-093cc6a727ec](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/98d73a42-dd43-42d6-a028-60b941d196aa)
-
-
-VERILOG CODE
-```
-module fs(a,b,bin,d,bout);
-
-input a,b,bin;
-
-output d,bout;
-
-wire w1,w2,w3;
-
-xor(w1,a,b);
-
-xor(d,w1,bin);
-
-and(w2,~a,b);
-
-and(w3,~w1,bin);
-
-or(bout,w3,w2);
-
-endmodule
-```
-OUTPUT WAVEFORM
-![328458991-bc8d00b2-5048-427d-bf2c-c02c3045914c](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/40ee02b4-35bb-41f1-ad67-41b32c2271d8)
-
-
-RIPPLE CARRY ADDER LOGIC DIAGRAM
-
-![328459224-a99aff44-dfa3-4e7b-9da8-69196df7a695](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/1220435f-2084-4f29-8a2c-c2caf3168a60)
-
-
-VERILOG CODE
-```
-module fulladder(a,b,c,sum,carry);
-input a,b,c;
-output sum,carry;
-wire w1,w2,w3;
-xor(w1,a,b);
-xor(sum,w1,c);
-and(w2,w1,c);
-and(w3,a,b);
-or(carry,w2,w3);
-endmodule
-
-module rca_8bit(a,b,cin,s,cout);
-input [7:0]a,b;
-input cin;
-output [7:0]s;
-output cout;
-wire [7:1]w;
-fulladder f1(a[0], b[0], cin, s[0], w[1]);
-fulladder f2(a[1], b[1], w[1], s[1], w[2]);
-fulladder f3(a[2], b[2], w[2], s[2], w[3]);
-fulladder f4(a[3], b[3], w[3], s[3], w[4]);
-fulladder f5(a[4], b[4], w[4], s[4], w[5]);
-fulladder f6(a[5], b[5], w[5], s[5], w[6]);
-fulladder f7(a[6], b[6], w[6], s[6], w[7]);
-fulladder f8(a[7], b[7], w[7], s[7], cout);
-endmodule
-```
-OUTPUT WAVEFORM
-![328459610-6bf9e606-80cb-4def-8503-210f60b0fbd4](https://github.com/Bharathchows18/VLSI-LAB-EXP-2/assets/161430676/336b6b92-8587-4102-922a-2551da17b993)
+Thus the simulation and synthesis of ENCODER, DECODER, MULTIPLEXER, DEMULTIPLEXER, 2bit MAGNITUDE COMPARATOR using vivado is successfully completed and executed.
 
 
 
-
-RESULT:
-
-       simulation of Logic Gates ,Adders and Subtractors using Vivado 2023.2 is verified.
